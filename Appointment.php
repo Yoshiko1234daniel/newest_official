@@ -1,3 +1,13 @@
+<?php 
+session_start();
+include "conn.php";
+
+if(!isset($_SESSION["user_id"])){
+    header("location: login.php");
+    exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -200,7 +210,7 @@
     <div class="header">
         <div class="navbar">
             <a href="ADMIN.html">Home</a>
-            <a href="DASHBOARDlogin.html">Logout</a>
+            <a href="signout.php">Logout</a>
         </div>
     </div>
 

@@ -1,7 +1,6 @@
 <?php 
-include "conn.php";
 session_start();
-
+include "conn.php";
 $msg = "";
 if(isset($_POST["submit"])){
     $username = $_POST["username"];
@@ -15,10 +14,10 @@ if(isset($_POST["submit"])){
             $user = $result->fetch_assoc();
 
             if($password == $user["password"]){
-                $user_id = $user["user_id"];
+                $_SESSION["user_id"] = $user["user_id"];
                 $msg = "login successfully";
-                header("location: Appointment.html");
-                exit;
+                header("location: Appointment.php");
+                exit();
                 
             } else {
                 $msg = "username and password do not match";
