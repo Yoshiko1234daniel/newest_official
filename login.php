@@ -1,8 +1,34 @@
 <?php 
 include "conn.php";
-// if(isset($_POST["submit"])){
-    
-// }
+session_start();
+
+$msg = "";
+if(isset($_POST["submit"])){
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    $sql = "SELECT * FROM users WHERE username = '$username'";
+    $result = mysqli_query($conn, $sql);
+
+    if($result){
+        if(mysqli_num_rows($result) == 1){
+            $user = $result->fetch_assoc();
+
+            if($password == $user["password"]){
+                $user_id = $user["user_id"];
+                $msg = "login successfully";
+                header("location: Appointment.html");
+                exit;
+                
+            } else {
+                $msg = "username and password do not match";
+            }
+        } else {
+            $msg = "account doesn't exist";
+        }
+
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,16 +43,12 @@ include "conn.php";
     </head>
 
     <body>
-        <?php 
-        include "dashboardbody.php";
-        ?>
         <header class="header">
             <nav class="navbar">
                 <a href="HOME.html">HOME</a>
                 <a href="ABOUT.html">ABOUT</a>
                 <a href="contact.html">CONTACT</a>
                 <a href="DASHBOARDlogin.html">LOGIN</a>
-
             </nav>
             <form action="#" class="search-bar">
                 <input type="text" placeholder="Search...">
@@ -73,6 +95,7 @@ include "conn.php";
                                 <a href="#">Forgot password?</a>
                             </div>
                             <button type="submit" name="submit" class="btn">Sign In</button>
+                            <p style="margin: 5px"><?php echo $msg; ?></p>
                         </form>
                     </div>
                 </div>
